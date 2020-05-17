@@ -5,7 +5,10 @@ using UnityEngine;
 public class BulletControl : MonoBehaviour
 {
     //AnimatorコンポーネントにアクセスするAnimator型変数animを宣言
-    Animator anim;
+    private Animator anim;
+
+    public AudioClip atackSE;
+    public AudioSource audioSource;
 
     public GameObject bullet;
     float speed;
@@ -18,12 +21,18 @@ public class BulletControl : MonoBehaviour
         speed = 4.0f;
         //Animator関数にアクセスして実体化
         anim = GetComponent<Animator>();
+
+        //AudioSource関数にアクセスして実体化
+        audioSource = GetComponent<AudioSource>();
+        audioSource.clip = atackSE;
     }
 
     void Update()
     {
         if(Input.GetMouseButtonDown(0))
         {
+            //SEを鳴らす
+            audioSource.PlayOneShot(atackSE);
             //撃つアニメーション
             anim.SetBool("shot", true);
             // 弾（ゲームオブジェクト）の生成

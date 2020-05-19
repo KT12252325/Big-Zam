@@ -52,6 +52,33 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collider)
+    {
+        //弾に当たったらｈｐが1減る
+        if (collider.gameObject.CompareTag("EnemyBullet"))
+        {
+            playerHP -= 1;
+
+            playerHPSlider.value = playerHP;
+
+            if (playerHP == 0)
+            {
+                //HPが0になったらカウント+1
+                deathCount += 1;
+
+                UpdatePlayerIcons();
+
+                GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+                Destroy(effect, 1.0f);
+                //プレイヤーを非アクティブにする
+                this.gameObject.SetActive(false);
+
+                //リトライの命令ブロックを1秒後に呼び出す  
+                Invoke("Retry", 1.0f);
+            }
+        }
+    }
+
     //プレイヤーの残機数を更新する
     void UpdatePlayerIcons()
     {
@@ -72,7 +99,7 @@ public class PlayerHealth : MonoBehaviour
     void Retry()
     {
         this.gameObject.SetActive(true);
-        playerHP = 5;
+        playerHP = 10;
         playerHPSlider.value = playerHP;
     }
 }

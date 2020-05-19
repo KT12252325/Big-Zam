@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ErightCheck : MonoBehaviour
+public class ERightCheck : MonoBehaviour
 {
     private string PlayerTag = "Player";
     public bool isright = false;

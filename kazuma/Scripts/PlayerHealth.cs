@@ -41,17 +41,18 @@ public class PlayerHealth : MonoBehaviour
                 UpdatePlayerIcons();
 
                 GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+                //1秒後にエフェクトを削除
                 Destroy(effect, 1.0f);
                 //プレイヤーを非アクティブにする
                 this.gameObject.SetActive(false);
 
-                //リトライの命令ブロックを1秒後に呼び出す  
+                //リトライを1秒後に呼び出す  
                 Invoke("Retry", 1.0f);
             }
         }
     }
 
-    //プレイヤーの残機数を表示する命令ブロック
+    //プレイヤーの残機数を更新する
     void UpdatePlayerIcons()
     {
         for(int i = 0;i < playerIcons.Length;i++)

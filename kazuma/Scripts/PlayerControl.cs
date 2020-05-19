@@ -15,6 +15,10 @@ public class PlayerControl : MonoBehaviour
     private bool jump = false;
     //ジャンプした場所を記録
     private float jumpPos = 0.0f;
+    //マウス用位置座標
+    private Vector3 mpos;
+    //スクリーン座標をワールド座標に変換した位置座標
+    private Vector3 screenToWorldPointPosition;
 
     //パブリック変数
     //速度
@@ -42,7 +46,6 @@ public class PlayerControl : MonoBehaviour
         isGround = ground.IsGround();
 
         //キー入力されたら行動する
-        float horizontalKey = Input.GetAxis("Horizontal");
         float xSpeed = 0.0f;
         float ySpeed = -gravity;
         float verticalKey = Input.GetAxis("Vertical");
@@ -59,15 +62,15 @@ public class PlayerControl : MonoBehaviour
 
         if (!Input.GetKey(KeyCode.S))
         {
-            if(horizontalKey > 0)
+            if(Input.GetKey(KeyCode.D))
             {
-                transform.localScale = new Vector3(1, 1, 1);
+                //transform.localScale = new Vector3(1, 1, 1);
                 anim.SetBool("run", true);
                 xSpeed = speed;
             }
-            else if (horizontalKey < 0)
+            else if (Input.GetKey(KeyCode.A))
             {
-                transform.localScale = new Vector3(-1, 1, 1);
+                //transform.localScale = new Vector3(-1, 1, 1);
                 anim.SetBool("run", true);
                 xSpeed = -speed;
             }
@@ -78,16 +81,23 @@ public class PlayerControl : MonoBehaviour
             }
         }
 
-        if(horizontalKey > 0)
+        //Vector3でマウス位置座標を取得する
+        mpos = Input.mousePosition;
+        //Z軸修正
+        mpos.z = 10f;
+        //マウス位置座標をスクリーン座標からワールド座標に変換する
+        screenToWorldPointPosition = Camera.main.ScreenToWorldPoint(mpos);
+
+        //動く方向にキャラが向くように画像を反転させる処理
+        if (transform.position.x < screenToWorldPointPosition.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
         }
-        else if(horizontalKey < 0)
+        else if (transform.position.x > screenToWorldPointPosition.x)
         {
             transform.localScale = new Vector3(-1, 1, 1);
         }
 
-        //動く方向にキャラが向くように画像を反転させる処理
         //ジャンプ制御
         if (isGround)
         {

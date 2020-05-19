@@ -126,6 +126,7 @@ public class PlayerControl : MonoBehaviour
                 jump = false;
             }
         }
+
         rb2d.velocity = new Vector2(xSpeed, ySpeed);
     }
 }

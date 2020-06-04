@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BossControl : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class BossControl : MonoBehaviour
     public ELeftCheck left;
     public ERightCheck right;
     //体力
-    public int hp = 50;
+    public int hp = 25;
     //移動速度
     public float speed = 2.0f;
     //ジャンプしているかいないか
@@ -25,15 +26,13 @@ public class BossControl : MonoBehaviour
     private bool isright = false;
     // 爆発効果音
     public AudioClip explosionSE;
-    //ジャンプ時の音
-    public AudioClip sound1;
-    AudioSource audio;
+ 
     void Start()
     {
         //Rigidbody2D関数にアクセスして実体化
         rb2d = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
-        audio = GetComponent<AudioSource>();
+      
     }
 
     void Update()
@@ -46,10 +45,7 @@ public class BossControl : MonoBehaviour
             {
                 rb2d.AddForce(Vector2.up * flap);
                 jump = true;
-                if(jump==true)
-                {
-                    audio.Play();
-                }
+              
             }
             if (isleft)
             {
@@ -66,7 +62,7 @@ public class BossControl : MonoBehaviour
         {
             // オーディオを再生
             AudioSource.PlayClipAtPoint(explosionSE, transform.position);
-            Destroy(gameObject);
+            SceneManager.LoadScene("GameClear");
         }
 
     }
@@ -83,7 +79,7 @@ public class BossControl : MonoBehaviour
             //結果を戻す
             gameObject.transform.localScale = temp;
         }
-        //Wallタグのついたオブジェクトと衝突したら
+        //Enemyタグのついたオブジェクトと衝突したら
         if (col.gameObject.tag == "Enemy")
         {
             //EnemyのlocalScaleを変数に格納

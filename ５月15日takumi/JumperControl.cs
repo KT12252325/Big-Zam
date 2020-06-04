@@ -21,6 +21,8 @@ public class JumperControl : MonoBehaviour
     //ジャンプ時の音
     public AudioClip sound1;
     AudioSource audio;
+    // 爆発効果音
+    public AudioClip explosionSE;
 
 
     void Start()
@@ -53,8 +55,11 @@ public class JumperControl : MonoBehaviour
                 anim.SetBool("JumperJump", true);
             }
             //hpが0になった時死ぬ
-            if (hp == 0)
+            if (hp <= 0)
             {
+                FindObjectOfType<Score>().AddPoint(100);
+                // オーディオを再生
+                AudioSource.PlayClipAtPoint(explosionSE, transform.position);
                 Destroy(gameObject);
             }
         }

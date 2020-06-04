@@ -31,6 +31,8 @@ public class OctopusControl : MonoBehaviour
     public int hp = 3;
     //画面に移ったら行動開始
     private SpriteRenderer sr = null;
+    // 爆発効果音
+    public AudioClip explosionSE;
 
     void Start()
     {
@@ -50,20 +52,15 @@ public class OctopusControl : MonoBehaviour
                 currentTime = 0;
                 //敵の座標を変数posに保存
                 var pos = this.gameObject.transform.position;
-
                 //弾のプレハブを作成
                 var b = Instantiate(enemyBullet) as GameObject;
-
                 //弾のプレハブの位置を敵の位置にする
                 b.transform.position = pos;
-
                 //敵からプレイヤーに向かうベクトルを作る
                 //プレイヤーの位置から敵の位置(弾の位置)を引く
                 Vector2 vec = player.transform.position - pos;
-
                 //弾のRigidbody2Dコンポーネントのvelocityに先ほど求めたベクトルを入れて力を加える
                 b.GetComponent<Rigidbody2D>().velocity = vec;
-
                 Destroy(b, 3.0f);
             }*/
             }
@@ -108,8 +105,11 @@ public class OctopusControl : MonoBehaviour
         {
             hp -= 1;
             //hpが0になった時死ぬ
-            if (hp == 0)
+            if (hp <= 0)
             {
+                FindObjectOfType<Score>().AddPoint(100);
+                // オーディオを再生
+                AudioSource.PlayClipAtPoint(explosionSE, transform.position);
                 Destroy(gameObject);
             }
         }
@@ -121,7 +121,7 @@ public class OctopusControl : MonoBehaviour
         var pos = transform.localPosition; // プレイヤーの位置
         var rot = transform.localRotation; // プレイヤーの向き
 
-       // pos.y = -1;
+        // pos.y = -1;
         //pos.x = -1/9;
 
         // 弾を複数発射する場合
@@ -150,7 +150,7 @@ public class OctopusControl : MonoBehaviour
             // 弾を発射する方向と速さを設定する
             ebullet.Init(angleBase, speed);
         }
-        
+
 
     }
 }

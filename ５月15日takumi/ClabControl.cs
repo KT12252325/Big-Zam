@@ -20,6 +20,8 @@ public class ClabControl : MonoBehaviour
 
     private bool isleft = false;
     private bool isright = false;
+    // 爆発効果音
+    public AudioClip explosionSE;
 
     void Start()
     {
@@ -43,6 +45,8 @@ public class ClabControl : MonoBehaviour
         if (hp <= 0)
         {
             FindObjectOfType<Score>().AddPoint(100);
+            // オーディオを再生
+            AudioSource.PlayClipAtPoint(explosionSE, transform.position);
             Destroy(gameObject);
         }
        
@@ -60,7 +64,7 @@ public class ClabControl : MonoBehaviour
             //結果を戻す
             gameObject.transform.localScale = temp;
         }
-        //Wallタグのついたオブジェクトと衝突したら
+        //Enemyタグのついたオブジェクトと衝突したら
         if (col.gameObject.tag == "Enemy")
         {
             //EnemyのlocalScaleを変数に格納

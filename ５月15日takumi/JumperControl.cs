@@ -20,7 +20,6 @@ public class JumperControl : MonoBehaviour
     private SpriteRenderer sr = null;
     //ジャンプ時の音
     public AudioClip sound1;
-    AudioSource audio;
     // 爆発効果音
     public AudioClip explosionSE;
 
@@ -32,8 +31,6 @@ public class JumperControl : MonoBehaviour
         //Animator関数にアクセスして実体化
         anim = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
-        //Componentを取得
-        audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -46,9 +43,9 @@ public class JumperControl : MonoBehaviour
                 jump = true;
                  if(jump==true)
             {
-                //音(sound1)を鳴らす
-                audio.Play();
-            }
+                    //音(sound1)を鳴らす
+                    AudioSource.PlayClipAtPoint(sound1, transform.position);
+                }
             }
             else
             {

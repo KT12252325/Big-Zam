@@ -7,9 +7,7 @@ public class BossControl : MonoBehaviour
 {
     //Rigidbodey2DコンポーネントにアクセスするRigidbody型変数rb2dを宣言
     Rigidbody2D rb2d;
-    //プレイヤーの方を向く
-    public ELeftCheck left;
-    public ERightCheck right;
+   
     //体力
     public int hp = 25;
     //移動速度
@@ -22,8 +20,6 @@ public class BossControl : MonoBehaviour
     //画面に移ったら行動開始
     private SpriteRenderer sr = null;
 
-    private bool isleft = false;
-    private bool isright = false;
     // 爆発効果音
     public AudioClip explosionSE;
  
@@ -47,14 +43,7 @@ public class BossControl : MonoBehaviour
                 jump = true;
               
             }
-            if (isleft)
-            {
-                speed = speed * -1;
-            }
-            if (isright)
-            {
-                speed = speed * -1;
-            }
+          
         }
 
         //hpが0になった時死ぬ

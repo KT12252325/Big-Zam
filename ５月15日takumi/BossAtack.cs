@@ -8,9 +8,7 @@ public class BossAtack : MonoBehaviour
     public GameObject player;
     //弾のプレハブオブジェクト
     public EBullet enemyBullet;
-    //プレイヤーの方を向く
-    public ELeftCheck left;
-    public ERightCheck right;
+   
     // 弾の移動の速さ
     public float EshotSpeed;
     // 複数の弾を発射する時の角度
@@ -24,9 +22,7 @@ public class BossAtack : MonoBehaviour
 
     public float angle = 0;
 
-    private bool isleft = false;
-    private bool isright = false;
-
+ 
   
     //画面に移ったら行動開始
     private SpriteRenderer sr = null;
@@ -38,8 +34,7 @@ public class BossAtack : MonoBehaviour
 
     void Update()
     {
-        isleft = left.Isleft();
-        isright = right.Isright();
+       
         if (sr.isVisible)
         {
             // 弾の発射タイミングを管理するタイマーを更新する
@@ -51,28 +46,7 @@ public class BossAtack : MonoBehaviour
             // 弾の発射タイミングを管理するタイマーをリセットする
             EshotTimer = 0;
 
-            if (isleft)
-            {
-                //EnemyのlocalScaleを変数に格納
-                Vector2 temp = gameObject.transform.localScale;
-                //localScale.xに1をかける
-                temp.x *= 1;
-                //結果を戻す
-                gameObject.transform.localScale = temp;
-                // 弾を発射する
-                ShootNWay(angle, EshotAngleRange, EshotSpeed, EshotCount);
-            }
-            if (isright)
-            {
-                //EnemyのlocalScaleを変数に格納
-                Vector2 temp = gameObject.transform.localScale;
-                //localScale.xに-1をかける
-                temp.x *= -1;
-                //結果を戻す
-                gameObject.transform.localScale = temp;
-                // 弾を発射する
-                ShootNWay(angle, EshotAngleRange, EshotSpeed, EshotCount);
-            }
+           
         }
     }
 

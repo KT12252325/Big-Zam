@@ -8,20 +8,17 @@ public class ClabControl : MonoBehaviour
     Rigidbody2D rb2d;
     //AnimatorコンポーネントにアクセスするAnimator型変数animを宣言
     private Animator anim;
-    //プレイヤーの方を向く
-    public ELeftCheck left;
-    public ERightCheck right;
     //体力
     public int hp = 7;
     //移動速度
     public float speed = 2.0f;
     //画面に移ったら行動開始
     private SpriteRenderer sr = null;
-
-    private bool isleft = false;
-    private bool isright = false;
     // 爆発効果音
     public AudioClip explosionSE;
+    //エフェクト
+    public GameObject effectPrefab;
+
 
     void Start()
     {
@@ -45,6 +42,8 @@ public class ClabControl : MonoBehaviour
         if (hp <= 0)
         {
             FindObjectOfType<Score>().AddPoint(100);
+            GameObject effect = Instantiate(effectPrefab, transform.position, Quaternion.identity);
+            Destroy(effect, 1.0f);
             // オーディオを再生
             AudioSource.PlayClipAtPoint(explosionSE, transform.position);
             Destroy(gameObject);

@@ -25,14 +25,6 @@ public class ERightCheck : MonoBehaviour
         {
             isright = true;
         }
-        else if (isrightExit)
-        {
-            isright = false;
-        }
-
-        isrightEnter = false;
-        isrightStay = false;
-        isrightExit = false;
         return isright;
     }
 

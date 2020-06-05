@@ -25,14 +25,7 @@ public class ELeftCheck : MonoBehaviour
         {
             isleft = true;
         }
-        else if (isleftExit)
-        {
-            isleft = false;
-        }
-
-        isleftEnter = false;
-        isleftStay = false;
-        isleftExit = false;
+       
         return isleft;
     }
 

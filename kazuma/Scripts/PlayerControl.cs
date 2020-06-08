@@ -11,6 +11,8 @@ public class PlayerControl : MonoBehaviour
     private Animator anim;
     //接地判定
     private bool isGround = false;
+    //頭をぶつけているかどうか
+    private bool isHead = false;
     //ジャンプしているかいないか
     private bool jump = false;
     //ジャンプした場所を記録
@@ -25,6 +27,8 @@ public class PlayerControl : MonoBehaviour
     public float speed;
     //接地
     public GroundCheck ground;
+    //頭をぶつけた判定
+    public GroundCheck head;
     //重力
     public float gravity;
     //ジャンプ力
@@ -40,10 +44,11 @@ public class PlayerControl : MonoBehaviour
         anim = GetComponent<Animator>();
     }
 
-    void Update()
+    void FixedUpdate()
     {
         //接地判定を得る
         isGround = ground.IsGround();
+        isHead = head.IsGround();
 
         //キー入力されたら行動する
         float xSpeed = 0.0f;
@@ -58,6 +63,16 @@ public class PlayerControl : MonoBehaviour
         else
         {
             anim.SetBool("squat", false);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            //撃つアニメーション
+            anim.SetBool("shot", true);
+        }
+        else
+        {
+            anim.SetBool("shot", false);
         }
 
         if (!Input.GetKey(KeyCode.S))
@@ -101,7 +116,7 @@ public class PlayerControl : MonoBehaviour
         //ジャンプ制御
         if (isGround)
         {
-            if (verticalKey > 0)
+            if (verticalKey > 0 )
             {
                 ySpeed = jumpSpeed;
                 jumpPos = transform.position.y;
@@ -112,6 +127,7 @@ public class PlayerControl : MonoBehaviour
             {
                 jump = false;
                 anim.SetBool("jump", false);
+                anim.SetBool("jumpAtk", false);
             }
         }
         else if(jump)
@@ -120,13 +136,25 @@ public class PlayerControl : MonoBehaviour
             if(verticalKey > 0 && jumpPos + jumpHeight > transform.position.y)
             {
                 ySpeed = jumpSpeed;
+                if(isHead == true)
+                {
+                    jump = false;
+                }
             }
             else
             {
                 jump = false;
             }
-        }
 
+        }
+        if(!isGround)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                anim.SetBool("jumpAtk", true);
+            }
+        }
+        
         rb2d.velocity = new Vector2(xSpeed, ySpeed);
     }
 }
